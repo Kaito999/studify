@@ -27,7 +27,13 @@ public class AccountController : BaseController
     {
         var email = User.FindFirstValue(ClaimTypes.Email);
 
+        if (email == null) return NotFound("Could not find user with such email!");
+
         var user = await _userManager.FindByEmailAsync(email);
+
+        if (user == null) return NotFound("Could not find user with such email!");
+
+        if (user.Email == null) return NotFound("Users email is null!");
 
         return new UserDto
         {
@@ -42,19 +48,6 @@ public class AccountController : BaseController
     {
         return await _userManager.FindByEmailAsync(email) != null;
     }
-
-    /*
-    [Authorize]
-    [HttpGet("courses")]
-    public async Task<ActionResult<Address>> GetUserAddress()
-    {
-        var email = User.FindFirstValue(ClaimTypes.Email);
-
-        var user = await _userManager.FindByEmailAsync(email);
-
-        return user.Address;
-    }
-    */
 
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)

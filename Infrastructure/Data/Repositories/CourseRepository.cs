@@ -12,6 +12,13 @@ public class CourseRepository : ICourseRepository
         _context = context;
     }
 
+    public async Task<bool> IsCreator(int courseId, string userId)
+    {
+        return await _context.Courses
+                            .Where(c => c.Id == courseId && c.CreatorId == userId)
+                            .FirstOrDefaultAsync() != null;
+    }
+
     public async Task<Course> AddCourseAsync(Course course)
     {
         _context.Courses.Add(course);
@@ -19,9 +26,9 @@ public class CourseRepository : ICourseRepository
         return course;
     }
 
-    public async Task<Course> GetCourseByIdAsync(int id)
+    public async Task<Course> GetCourseByIdAsync(int courseId, string userId)
     {
-        return await _context.Courses.FindAsync(id);
+        return await _context.Courses.FindAsync(courseId);
     }
 
     public async Task<UserCourse> AddUserToCourseAsync(UserCourse userCourse)

@@ -6,4 +6,5 @@ public class CourseDto
 {
     [Required]
     public required string Title { get; set; }
+    public int CourseId { get; set; }
 }
