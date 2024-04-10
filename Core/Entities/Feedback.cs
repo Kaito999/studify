@@ -1,0 +1,8 @@
+namespace Core.Entities;
+
+public class Feedback : BaseEntity
+{
+    public required int TopicId { get; set; }
+    public required string Text { get; set; }
+    public required DateTime UploadTime { get; set; }
+}
