@@ -26,7 +26,7 @@ public class CourseRepository : ICourseRepository
         return course;
     }
 
-    public async Task<Course> GetCourseByIdAsync(int courseId, string userId)
+    public async Task<Course?> GetCourseByIdAsync(int courseId, string userId)
     {
         return await _context.Courses.FindAsync(courseId);
     }

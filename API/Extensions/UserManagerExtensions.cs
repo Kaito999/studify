@@ -7,7 +7,7 @@ namespace API.Extensions;
 
 public static class UserManagerExtensions
 {
-    public static async Task<AppUser> FindByEmailFromClaimsPrincipal(
+    public static async Task<AppUser?> FindByEmailFromClaimsPrincipal(
     this UserManager<AppUser> userManager, ClaimsPrincipal user)
     {
         return await userManager.Users

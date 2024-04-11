@@ -32,6 +32,8 @@ public class CoursesController : BaseController
     {
         var user = await _userManager.FindByEmailFromClaimsPrincipal(User);
 
+        if (user == null) return NotFound("User not found!");
+
         var course = await _repo.GetCourseByIdAsync(courseId, user.Id);
 
         if (course != null) return course;
@@ -43,6 +45,8 @@ public class CoursesController : BaseController
     public async Task<ActionResult<CourseDto>> AddCourse([FromBody] string title)
     {
         var user = await _userManager.FindByEmailFromClaimsPrincipal(User);
+
+        if (user == null) return NotFound("User not found!");
 
         var course = new Course
         {
@@ -67,6 +71,8 @@ public class CoursesController : BaseController
 
         var currentUser = await _userManager.FindByEmailFromClaimsPrincipal(User);
 
+        if (currentUser == null) return NotFound();
+
         if (user == null) return NotFound("Could not find user with such email!");
 
         if (user.Email == null) return BadRequest("User email is null or invalid!");
@@ -74,6 +80,10 @@ public class CoursesController : BaseController
         if (await _repo.IsCreator(enrollDto.CourseId, currentUser.Id) == false) return BadRequest("User can not enroll other users in this course!");
 
         var course = await _repo.GetCourseByIdAsync(enrollDto.CourseId, user.Id);
+
+        if (course == null) return NotFound("Course not found!");
+
+        if (course.Id == 0) return BadRequest("Course id is missing");
 
         var userCourse = new UserCourse
         {
