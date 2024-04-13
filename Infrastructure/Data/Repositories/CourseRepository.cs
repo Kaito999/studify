@@ -26,7 +26,7 @@ public class CourseRepository : ICourseRepository
         return course;
     }
 
-    public async Task<Course?> GetCourseByIdAsync(int courseId, string userId)
+    public async Task<Course?> GetCourseByIdAsync(int courseId)
     {
         return await _context.Courses.FindAsync(courseId);
     }
@@ -40,8 +40,19 @@ public class CourseRepository : ICourseRepository
 
     public async Task<IReadOnlyList<Course>> GetCoursesAsync()
     {
-        return await _context.Courses.
-                    Include(x => x.Topics).
-                    ToListAsync();
+        return await _context.Courses
+            .Include(x => x.Topics)
+            .ToListAsync();
+    }
+
+    public async Task<IReadOnlyList<Course>> GetCourses(string userId)
+    {
+        return await _context.Courses
+            .Where(c => c.CreatorId == userId || _context.UserCourses.Any(uc => uc.CoursesId == c.Id && uc.UsersId == userId))
+            .Include(x => x.Topics)
+                .ThenInclude(x => x.Documents)
+            .Include(x => x.Topics)
+                .ThenInclude(x => x.Documents)
+            .ToListAsync();
     }
 }

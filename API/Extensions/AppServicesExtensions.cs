@@ -20,6 +20,15 @@ public static class AppServicesExtensions
 
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy", policy =>
+            {
+                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+            });
+        });
 
         return services;
     }

@@ -1,6 +1,36 @@
-<div style="height: 100vh">
+<div class="vh-100 wh-100">
   <app-nav-bar></app-nav-bar>
-  <div class="d-flex" style="height: calc(100%-62px)">
+  <div class="d-flex" style="height: calc(100% - 4rem)">
     <app-side-bar></app-side-bar>
+    <div
+      class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"
+      style="padding-left: 1.5rem; padding-top: 1.5rem; max-height: 22rem"
+    >
+      <div class="col" *ngFor="let item of data">
+        <div
+          class="card card mb-3 w-100"
+          style="
+            margin-bottom: 1.5rem;
+            margin-right: 1.5rem;
+            max-width: 22rem;
+            max-height: 22rem;
+          "
+        >
+          <img
+            src="https://cdn.discordapp.com/attachments/640910582828236800/1228397480106918020/kek.jpg?ex=662be54d&is=6619704d&hm=1576a8d7cf60eb78ef3d03b5f840c337c0a1a982802d2db9921ddc0723a5672b&"
+            class="card-img-top"
+            alt="Hollywood Sign on The Hill"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ item.title }}</h5>
+            <p class="card-text">
+              This is a longer card with supporting text below as a natural
+              lead-in to additional content. This content is a little bit
+              longer.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

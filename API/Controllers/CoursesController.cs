@@ -1,6 +1,5 @@
 using API.DTOs;
 using API.Extensions;
-using AutoMapper.Configuration.Conventions;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -14,35 +13,44 @@ public class CoursesController : BaseController
 {
     private readonly ICourseRepository _repo;
     private readonly UserManager<AppUser> _userManager;
+    private readonly IGenericRepository<Course> _courseRepo;
 
-    public CoursesController(ICourseRepository repo, UserManager<AppUser> userManager)
+    public CoursesController(ICourseRepository repo, IGenericRepository<Course> courseRepo, UserManager<AppUser> userManager)
     {
+        _courseRepo = courseRepo;
         _userManager = userManager;
         _repo = repo;
     }
 
     [HttpGet]
-    public async Task<IReadOnlyList<Course>> GetCourses()
+    public async Task<IReadOnlyList<CourseDto>> GetCourses()
     {
-        return await _repo.GetCoursesAsync();
+        var user = await _userManager.FindByEmailFromClaimsPrincipal(User);
+
+        var courses = await _repo.GetCourses(user.Id);
+
+        var result = courses.Select(c => new CourseDto
+        {
+            CourseId = c.Id,
+            CreatorId = c.CreatorId,
+            Title = c.Title,
+            Topics = c.Topics,
+            ImageUrl = c.ImageUrl
+        }).ToList();
+
+        return result;
     }
 
     [HttpGet("{courseId}")]
     public async Task<ActionResult<Course>> GetCourseById(int courseId)
     {
-        var user = await _userManager.FindByEmailFromClaimsPrincipal(User);
+        var course = await _courseRepo.GetByIdAsync(courseId);
 
-        if (user == null) return NotFound("User not found!");
-
-        var course = await _repo.GetCourseByIdAsync(courseId, user.Id);
-
-        if (course != null) return course;
-
-        else return NotFound();
+        return NotFound();
     }
 
     [HttpPost]
-    public async Task<ActionResult<CourseDto>> AddCourse([FromBody] string title)
+    public async Task<ActionResult<CourseCreationDto>> AddCourse([FromBody] CourseCreationDto courseDto)
     {
         var user = await _userManager.FindByEmailFromClaimsPrincipal(User);
 
@@ -50,40 +58,44 @@ public class CoursesController : BaseController
 
         var course = new Course
         {
-            Title = title,
+            Title = courseDto.Title,
             CreatorId = user.Id
         };
 
-        await _repo.AddCourseAsync(course);
+        await _courseRepo.AddAsync(course);
 
-        return new CourseDto
+        return new CourseCreationDto
         {
             Title = course.Title,
             CourseId = course.Id
         };
     }
 
+    [HttpGet("iscreator/{courseId}")]
+    public async Task<ActionResult<bool>> IsUserCourseCreator(int courseId)
+    {
+        var currentUser = await _userManager.FindByEmailFromClaimsPrincipal(User);
+
+        if (currentUser == null) return Unauthorized();
+
+        return await _repo.IsCreator(courseId, currentUser.Id);
+    }
+
     [HttpPost]
     [Route("enroll")]
     public async Task<ActionResult<EnrollDto>> AddUserToCourse(EnrollDto enrollDto)
     {
+        if (!IsUserCourseCreator(enrollDto.CourseId).Result.Value) return BadRequest("Current user can not enroll other users in this course!");
+
         var user = await _userManager.FindByEmailAsync(enrollDto.UserEmail);
-
-        var currentUser = await _userManager.FindByEmailFromClaimsPrincipal(User);
-
-        if (currentUser == null) return NotFound();
 
         if (user == null) return NotFound("Could not find user with such email!");
 
         if (user.Email == null) return BadRequest("User email is null or invalid!");
 
-        if (await _repo.IsCreator(enrollDto.CourseId, currentUser.Id) == false) return BadRequest("User can not enroll other users in this course!");
-
-        var course = await _repo.GetCourseByIdAsync(enrollDto.CourseId, user.Id);
+        var course = await _repo.GetCourseByIdAsync(enrollDto.CourseId);
 
         if (course == null) return NotFound("Course not found!");
-
-        if (course.Id == 0) return BadRequest("Course id is missing");
 
         var userCourse = new UserCourse
         {
