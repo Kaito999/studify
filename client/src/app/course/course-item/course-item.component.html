@@ -1,0 +1,16 @@
+<div
+  *ngIf="course"
+  class="card mb-3 h-100 w-100"
+  style="margin-bottom: 1.5rem; margin-right: 1.5rem"
+  routerLink="/courses/{{ course.courseId }}"
+>
+  <div
+    style="height: 5rem; border-radius: 0.375rem 0.375rem 0 0"
+    [style.background-color]="color"
+  ></div>
+  <div class="card-body">
+    <h5 class="card-title">{{ course.title }}</h5>
+    <p class="card-text h-50"></p>
+    <div class="border-top"></div>
+  </div>
+</div>

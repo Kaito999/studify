@@ -17,6 +17,12 @@ public class BaseSpecification<T> : ISpecification<T>
 
     public List<Expression<Func<T, object>>> Includes { get; } = [];
 
+    public Expression<Func<T, object>> OrderBy { get; private set; }
+
+    public Expression<Func<T, object>> OrderByDescending { get; private set; }
+
+    public Expression<Func<T, object>> UserCourse { get; private set; }
+
     public int Take { get; private set; }
 
     public int Skip { get; private set; }
@@ -26,6 +32,21 @@ public class BaseSpecification<T> : ISpecification<T>
     protected void AddInclude(Expression<Func<T, object>> includeExpression)
     {
         Includes.Add(includeExpression);
+    }
+
+    protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
+    {
+        OrderBy = orderByExpression;
+    }
+
+    protected void AddOrderByDescending(Expression<Func<T, object>> orderByDescExpression)
+    {
+        OrderByDescending = orderByDescExpression;
+    }
+
+    protected void AddCourseByUserId(Expression<Func<T, object>> userCourse)
+    {
+        UserCourse = userCourse;
     }
 
     protected void ApplyPaging(int take, int skip)

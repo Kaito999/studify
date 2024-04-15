@@ -38,14 +38,7 @@ public class CourseRepository : ICourseRepository
         return userCourse;
     }
 
-    public async Task<IReadOnlyList<Course>> GetCoursesAsync()
-    {
-        return await _context.Courses
-            .Include(x => x.Topics)
-            .ToListAsync();
-    }
-
-    public async Task<IReadOnlyList<Course>> GetCourses(string userId)
+    public async Task<IReadOnlyList<Course>> GetCoursesAsync(string userId, int pageIndex, int pageSize)
     {
         return await _context.Courses
             .Where(c => c.CreatorId == userId || _context.UserCourses.Any(uc => uc.CoursesId == c.Id && uc.UsersId == userId))
@@ -53,6 +46,15 @@ public class CourseRepository : ICourseRepository
                 .ThenInclude(x => x.Documents)
             .Include(x => x.Topics)
                 .ThenInclude(x => x.Documents)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
+    }
+
+    public async Task<int> GetTotalCourseCountAsync(string userId)
+    {
+        return await _context.Courses
+            .Where(c => c.CreatorId == userId || _context.UserCourses.Any(uc => uc.CoursesId == c.Id && uc.UsersId == userId))
+            .CountAsync();
     }
 }

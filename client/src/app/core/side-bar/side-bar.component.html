@@ -1,7 +1,7 @@
 <div
   class="d-flex flex-column flex-grow p-3"
   style="
-    width: 15rem;
+    width: 18.75rem;
     border-right: 1px solid #dee2e6;
     height: calc(100vh - 4rem);
   "
@@ -9,7 +9,7 @@
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
       <a
-        href="#"
+        routerLink="/courses"
         class="nav-link d-flex align-items-center active"
         aria-current="page"
       >
@@ -29,35 +29,20 @@
       </a>
     </li>
     <li>
-      <a href="#" class="nav-link link-dark">
-        <svg class="bi me-2" width="16" height="16">
-          <use xlink:href="#speedometer2"></use>
+      <a class="nav-link link-dark">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-house-door-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5"
+          />
         </svg>
-        Dashboard
-      </a>
-    </li>
-    <li>
-      <a href="#" class="nav-link link-dark">
-        <svg class="bi me-2" width="16" height="16">
-          <use xlink:href="#table"></use>
-        </svg>
-        Orders
-      </a>
-    </li>
-    <li>
-      <a href="#" class="nav-link link-dark">
-        <svg class="bi me-2" width="16" height="16">
-          <use xlink:href="#grid"></use>
-        </svg>
-        Products
-      </a>
-    </li>
-    <li>
-      <a href="#" class="nav-link link-dark">
-        <svg class="bi me-2" width="16" height="16">
-          <use xlink:href="#people-circle"></use>
-        </svg>
-        Customers
+        <span class="ms-5">Dashboard</span>
       </a>
     </li>
   </ul>

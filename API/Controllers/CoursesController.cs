@@ -1,7 +1,9 @@
 using API.DTOs;
 using API.Extensions;
+using API.Helpers;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,22 +25,26 @@ public class CoursesController : BaseController
     }
 
     [HttpGet]
-    public async Task<IReadOnlyList<CourseDto>> GetCourses()
+    public async Task<ActionResult<Pagination<CourseDto>>> GetCourses([FromQuery] PaginationParams pageParams)
     {
         var user = await _userManager.FindByEmailFromClaimsPrincipal(User);
 
-        var courses = await _repo.GetCourses(user.Id);
+        var courses = await _repo.GetCoursesAsync(user.Id, pageParams.PageIndex, pageParams.PageSize);
 
-        var result = courses.Select(c => new CourseDto
+        var totalCount = await _repo.GetTotalCourseCountAsync(user.Id);
+
+        var data = courses.Select(c => new CourseDto
         {
             CourseId = c.Id,
             CreatorId = c.CreatorId,
             Title = c.Title,
             Topics = c.Topics,
             ImageUrl = c.ImageUrl
-        }).ToList();
+        })
+        .OrderBy(c => c.Title)
+        .ToList();
 
-        return result;
+        return Ok(new Pagination<CourseDto>(pageParams.PageIndex, pageParams.PageSize, totalCount, data));
     }
 
     [HttpGet("{courseId}")]
