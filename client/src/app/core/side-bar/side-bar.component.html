@@ -1,5 +1,5 @@
 <div
-  class="d-flex flex-column flex-grow p-3"
+  class="d-flex flex-column flex-grow-1 p-3"
   style="
     width: 18.75rem;
     border-right: 1px solid #dee2e6;
@@ -7,43 +7,55 @@
   "
 >
   <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item">
-      <a
-        routerLink="/courses"
-        class="nav-link d-flex align-items-center active"
-        aria-current="page"
-      >
+    <div class="border-bottom" style="height: 3.6rem">
+      <li class="nav-item">
+        <a
+          routerLink="/courses"
+          class="nav-link d-flex align-items-center active"
+          aria-current="page"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="currentColor"
+            class="bi bi-house-door-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5"
+            />
+          </svg>
+          <span class="ms-4">Home</span>
+        </a>
+      </li>
+    </div>
+    <li style="cursor: pointer">
+      <a class="nav-link link-dark" data-toggle="collapse">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
+          width="25"
+          height="25"
           fill="currentColor"
-          class="bi bi-house-door-fill"
+          class="bi bi-card-list"
           viewBox="0 0 16 16"
         >
           <path
-            d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5"
+            d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"
           />
-        </svg>
-        <span class="ms-5">Home</span>
-      </a>
-    </li>
-    <li>
-      <a class="nav-link link-dark">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-house-door-fill"
-          viewBox="0 0 16 16"
-        >
           <path
-            d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5"
+            d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"
           />
         </svg>
-        <span class="ms-5">Dashboard</span>
+        <span class="ms-3">Courses</span>
       </a>
     </li>
+    <div *ngFor="let course of courses">
+      <li>
+        <a class="nav-link link-dark">
+          <span class="ms-3">{{ course.title }}</span>
+        </a>
+      </li>
+    </div>
   </ul>
 </div>

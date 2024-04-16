@@ -1,5 +1,11 @@
-<app-nav-bar></app-nav-bar>
-<div class="d-flex wh-100">
-  <app-side-bar></app-side-bar>
-  <router-outlet></router-outlet>
+<div class="d-flex flex-column">
+  <div style="height: 4rem">
+    <app-nav-bar></app-nav-bar>
+  </div>
+  <div class="d-flex">
+    <app-side-bar></app-side-bar>
+    <div class="w-100">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>

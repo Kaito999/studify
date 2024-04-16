@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Course } from '../shared/models/course';
 import { CourseService } from './course.service';

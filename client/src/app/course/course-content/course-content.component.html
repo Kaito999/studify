@@ -1,1 +1,27 @@
-<p>course-content works! id: {{ elementId }}</p>
+<app-course-header></app-course-header>
+<div class="container p-0 w-75" style="background-color: white">
+  <div
+    class="d-flex rounded-3 mt-4"
+    style="height: 15rem; background-color: orange"
+  >
+    <div class="d-flex flex-column align-self-end w-100 p-4">
+      <h1>{{ course.title }}</h1>
+      <div>
+        <span>room</span>
+      </div>
+    </div>
+  </div>
+  <section class="d-flex flex-row mt-4">
+    <div
+      class="d-flex flex-column p-3 me-4 border rounded-3"
+      style="width: 10rem"
+    >
+      <div class="d-flex flex-row align-itmes-center">
+        <span>Class Code</span>
+      </div>
+    </div>
+    <div class="w-75">
+      <span>helo</span>
+    </div>
+  </section>
+</div>

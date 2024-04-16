@@ -48,11 +48,20 @@ public class CoursesController : BaseController
     }
 
     [HttpGet("{courseId}")]
-    public async Task<ActionResult<Course>> GetCourseById(int courseId)
+    public async Task<ActionResult<CourseDto>> GetCourseById(int courseId)
     {
         var course = await _courseRepo.GetByIdAsync(courseId);
 
-        return NotFound();
+        if (course == null) return NotFound();
+
+        return new CourseDto
+        {
+            CourseId = course.Id,
+            CreatorId = course.CreatorId,
+            Title = course.Title,
+            Topics = course.Topics,
+            ImageUrl = course.ImageUrl
+        };
     }
 
     [HttpPost]
