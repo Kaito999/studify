@@ -4,8 +4,13 @@ import { CourseComponent } from './course/course.component';
 import { CourseContentComponent } from './course/course-content/course-content.component';
 
 const routes: Routes = [
+  { path: '', component: CourseComponent, data: { breadcrumb: 'Studify' } },
   { path: 'courses', component: CourseComponent },
-  { path: 'courses/:id', component: CourseContentComponent },
+  {
+    path: 'courses/:id',
+    component: CourseContentComponent,
+    data: { breadcrumb: { alias: 'courseName' } },
+  },
   { path: '**', redirectTo: 'courses', pathMatch: 'full' },
 ];
 

@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { BreadcrumbModule } from 'xng-breadcrumb';
 
 @NgModule({
   declarations: [NavBarComponent, SideBarComponent],
@@ -15,6 +16,7 @@ import { SharedModule } from '../shared/shared.module';
     ModalModule.forRoot(),
     FormsModule,
     SharedModule,
+    BreadcrumbModule,
   ],
   exports: [NavBarComponent, SideBarComponent],
 })
