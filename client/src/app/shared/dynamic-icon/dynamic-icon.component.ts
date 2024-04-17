@@ -9,13 +9,12 @@ import { Component, Input } from '@angular/core';
         width: 2rem;
         height: 2rem;
         border-radius: 50%;
-        background-color: white; /* Default background color */
-        color: black; /* Default text color */
+        background-color: black;
+        color: white;
         font-size: 1.1rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid;
       }
     `,
   ],

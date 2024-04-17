@@ -7,7 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { CourseModule } from './course/course.module';
-import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { AccountModule } from './account/account.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
     HttpClientModule,
     CoreModule,
     CourseModule,
+    AccountModule,
   ],
   providers: [BsModalService],
   bootstrap: [AppComponent],

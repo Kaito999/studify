@@ -11,6 +11,11 @@ const routes: Routes = [
     component: CourseContentComponent,
     data: { breadcrumb: { alias: 'courseName' } },
   },
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('./account/account.module').then((m) => m.AccountModule),
+  },
   { path: '**', redirectTo: 'courses', pathMatch: 'full' },
 ];
 
