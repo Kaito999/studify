@@ -65,7 +65,7 @@ public class CoursesController : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult<CourseCreationDto>> AddCourse([FromBody] CourseCreationDto courseDto)
+    public async Task<ActionResult<CourseCreationDto>> AddCourse([FromQuery] CourseCreationDto courseCreationDto)
     {
         var user = await _userManager.FindByEmailFromClaimsPrincipal(User);
 
@@ -73,7 +73,7 @@ public class CoursesController : BaseController
 
         var course = new Course
         {
-            Title = courseDto.Title,
+            Title = courseCreationDto.Title,
             CreatorId = user.Id
         };
 

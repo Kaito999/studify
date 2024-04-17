@@ -50,7 +50,11 @@
 
       <div class="d-flex flex-end align-items-center flex-row">
         <div class="d-flex align-items-center me-4">
-          <a href="#" class="d-block link-body-emphasis text-decoration-none">
+          <a
+            type="button"
+            (click)="openModal(course_form)"
+            class="d-block link-body-emphasis text-decoration-none"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -85,3 +89,35 @@
     </div>
   </div>
 </header>
+
+<ng-template #course_form>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">New Course</h4>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="onSubmit()">
+    <div class="modal-body">
+      <div class="mb-5">
+        <label for="exampleInputEmail1" class="form-label">Title</label>
+        <input
+          [(ngModel)]="courseTitle"
+          type="text"
+          class="form-control"
+          id="title"
+          name="title"
+          required
+        />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</ng-template>

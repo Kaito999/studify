@@ -7,11 +7,13 @@
   "
 >
   <ul class="nav nav-pills flex-column mb-auto">
-    <div class="border-bottom" style="height: 3.6rem">
+    <div class="border-bottom mb-2" style="height: 3.6rem">
       <li class="nav-item">
         <a
           routerLink="/courses"
-          class="nav-link d-flex align-items-center active"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link d-flex align-items-center"
           aria-current="page"
         >
           <svg
@@ -30,7 +32,7 @@
         </a>
       </li>
     </div>
-    <li style="cursor: pointer">
+    <!-- <li style="cursor: pointer">
       <a class="nav-link link-dark" data-toggle="collapse">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -49,10 +51,15 @@
         </svg>
         <span class="ms-3">Courses</span>
       </a>
-    </li>
+    </li> -->
     <div *ngFor="let course of courses">
-      <li>
-        <a class="nav-link link-dark">
+      <li class="nav-item">
+        <a
+          routerLink="/courses/{{ course.courseId }}"
+          routerLinkActive="active"
+          class="nav-link link-dark d-flex align-items-center"
+        >
+          <app-letter-icon [title]="course.title"></app-letter-icon>
           <span class="ms-3">{{ course.title }}</span>
         </a>
       </li>

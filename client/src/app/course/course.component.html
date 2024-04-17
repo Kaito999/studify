@@ -1,4 +1,4 @@
-<section class="col-10">
+<section class="col-10" style="width: calc(100% - 20px)">
   <div class="row row-cols-3 g-4 ps-4 pt-4 pb-4">
     <div
       class="col"
@@ -8,7 +8,10 @@
       <app-course-item [course]="course"></app-course-item>
     </div>
   </div>
-  <div class="d-flex justify-content-center align-self-end">
+  <div
+    *ngIf="courses.length >= 10"
+    class="d-flex justify-content-center align-self-end"
+  >
     <div class="mt-5">
       <pagination
         [boundaryLinks]="true"
