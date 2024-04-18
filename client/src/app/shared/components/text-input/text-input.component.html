@@ -1,0 +1,19 @@
+<input
+  class="form-control border-0 border-bottom border-dark"
+  [formControl]="control"
+  placeholder="{{ label }}"
+  type="{{ type }}"
+  style="border-radius: 0%"
+  [ngClass]="
+    control.touched ? (control.invalid ? 'is-invalid' : 'is-valid') : null
+  "
+/>
+<div *ngIf="control.errors?.['required']" class="invalid-feedback">
+  Please enter your {{ label }}!
+</div>
+<div *ngIf="control.errors?.['email']" class="invalid-feedback">
+  Invalid email address!
+</div>
+<div *ngIf="control.errors?.['pattern']" class="invalid-feedback">
+  Requires 1 lowercase, 1 uppercase, 1 digit, 1 special, and 6-10 characters.
+</div>

@@ -1,1 +1,74 @@
-<p>login works!</p>
+<section id="login" class="vh-100" style="background-color: #f8f8f8">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-10">
+        <div
+          class="card border-white shadow text-black"
+          style="border-radius: 1.5rem"
+        >
+          <div class="card-body p-md-5">
+            <div
+              class="row justify-content-center align-self-center"
+              style="height: 30rem"
+            >
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                <p class="text-left ps-3 h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
+                  Sign In
+                </p>
+
+                <form
+                  class="mx-1 mx-md-4"
+                  [formGroup]="loginForm"
+                  (ngSubmit)="onSubmit()"
+                >
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="me-3"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <app-text-input
+                        [formControl]="loginForm.controls['email']"
+                        [label]="'Email'"
+                      ></app-text-input>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <app-text-input
+                        [formControl]="loginForm.controls['password']"
+                        [type]="'password'"
+                        [label]="'Password'"
+                      ></app-text-input>
+                    </div>
+                  </div>
+                  <div class="form-check d-flex justify-content-center mb-5">
+                    Welcome back!
+                  </div>
+
+                  <div class="d-flex mx-3 mb-3 mb-lg-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                      Login
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div
+                class="col-md-10 col-lg-6 col-xl-7 d-flex flex-column justify-content-center align-items-center"
+              >
+                <img
+                  src="https://cdn.discordapp.com/attachments/640910582828236800/1230213057519554590/PngItem_6230347.png?ex=66328031&is=66200b31&hm=bfb3f2ebf1740a35c8bfffc50eb36aa571a2d86f39009c9386a9bcdff4301090&"
+                  class="img-fluid"
+                  alt="Sample image"
+                  style="height: 25rem; width: auto"
+                />
+                <span class="mt-3">
+                  <a class="text-dark" href="#register"> Create an account </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

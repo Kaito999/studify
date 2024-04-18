@@ -1,12 +1,18 @@
-<app-register></app-register>
-<!-- <div class="d-flex flex-column">
-  <div style="height: 4rem">
-    <app-nav-bar></app-nav-bar>
-  </div>
-  <div class="d-flex">
-    <app-side-bar></app-side-bar>
-    <div class="w-100">
-      <router-outlet></router-outlet>
+<ng-container *ngIf="(accountService.currentUser$ | async) === null">
+  <app-login></app-login>
+  <app-register></app-register>
+</ng-container>
+
+<ng-container *ngIf="(accountService.currentUser$ | async) !== null">
+  <div class="d-flex flex-column">
+    <div style="height: 4rem">
+      <app-nav-bar></app-nav-bar>
+    </div>
+    <div class="d-flex">
+      <app-side-bar></app-side-bar>
+      <div class="w-100">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
-</div> -->
+</ng-container>

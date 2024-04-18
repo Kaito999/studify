@@ -32,7 +32,7 @@
       </div>
 
       <div class="d-flex flex-end align-items-center flex-row">
-        <div class="d-flex align-items-center me-4">
+        <div class="d-flex align-items-center me-3">
           <a
             type="button"
             (click)="openModal(course_form)"
@@ -52,21 +52,51 @@
             </svg>
           </a>
         </div>
-        <div class="me-3">
+        <div
+          *ngIf="accountService.currentUser$ | async as user"
+          class="me-3"
+          dropdown
+        >
           <a
-            href="#"
-            class="d-block link-body-emphasis text-decoration-none"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+            dropdownToggle
+            class="d-block dropdown-toggle-split link-body-emphasis"
+            aria-controls="dropdown-basic"
           >
-            <img
-              src="https://github.com/mdo.png"
-              alt="mdo"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
               width="32"
               height="32"
-              class="rounded-circle"
-            />
+              fill="currentColor"
+              class="bi bi-person-circle"
+              viewBox="0 0 16 16"
+              style="cursor: pointer"
+            >
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+              <path
+                fill-rule="evenodd"
+                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+              />
+            </svg>
           </a>
+          <ul
+            id="dropdown-split"
+            *dropdownMenu
+            class="dropdown-menu dropdown-menu-right"
+            role="menu"
+            aria-labelledby="button-basic"
+          >
+            <li role="menuitem">
+              <a class="dropdown-item" style="cursor: pointer">{{
+                user.email
+              }}</a>
+            </li>
+            <li class="divider dropdown-divider"></li>
+            <li role="menuitem">
+              <a (click)="logout()" class="btn dropdown-item"
+                ><i class="bi bi-box-arrow-right me-3"></i>Logout</a
+              >
+            </li>
+          </ul>
         </div>
       </div>
     </div>

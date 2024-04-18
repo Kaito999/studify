@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AccountService } from 'src/app/account/account.service';
 import { CourseService } from 'src/app/course/course.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class NavBarComponent {
   constructor(
     private modalService: BsModalService,
     public modalRef: BsModalRef,
-    private courseService: CourseService
+    private courseService: CourseService,
+    public accountService: AccountService
   ) {}
 
   openModal(template: TemplateRef<void>) {
@@ -29,5 +31,9 @@ export class NavBarComponent {
     });
 
     this.modalRef.hide();
+  }
+
+  logout() {
+    this.accountService.logOut();
   }
 }

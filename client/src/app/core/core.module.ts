@@ -17,6 +17,7 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
     FormsModule,
     SharedModule,
     BreadcrumbModule,
+    SharedModule,
   ],
   exports: [NavBarComponent, SideBarComponent],
 })
