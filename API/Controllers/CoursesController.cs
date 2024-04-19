@@ -134,13 +134,13 @@ public class CoursesController : BaseController
     }
 
     [HttpDelete]
-    [Route("delete/{courseId}")]
+    [Route("delete")]
     public async Task<ActionResult> DeleteCourse([FromQuery] int courseId)
     {
         if (!IsUserCourseCreator(courseId).Result.Value) return BadRequest("");
 
         await _courseRepo.DeleteAsync(courseId);
 
-        return Ok("Course deleted!");
+        return Ok();
     }
 }

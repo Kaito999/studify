@@ -32,7 +32,7 @@ export class CourseContentComponent implements OnInit {
 
   getCourse() {
     this.courseService.getCourse(this.courseId).subscribe({
-      next: (r) => {
+      next: (r: Course) => {
         this.course = r;
         this.breadcrumbService.set('@courseName', this.course.title);
       },

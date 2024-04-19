@@ -40,7 +40,7 @@ export class CourseService {
       'Bearer ' + jwtToken
     );
 
-    return this.http.get<Course[]>(this.baseUrl + 'courses/' + id, {
+    return this.http.get<Course>(this.baseUrl + 'courses/' + id, {
       headers,
     });
   }
@@ -69,7 +69,7 @@ export class CourseService {
       'Bearer ' + jwtToken
     );
 
-    let params = new HttpParams().set('courseId', courseId);
+    let params = new HttpParams().set('courseId', courseId.toString());
 
     return this.http.delete(this.baseUrl + 'courses/delete/' + courseId, {
       params,

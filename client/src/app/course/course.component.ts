@@ -20,6 +20,7 @@ export class CourseComponent implements OnInit {
   }
 
   getCourses() {
+    console.log('Refreshing courses...');
     this.courseService.getCourses(this.courseParams).subscribe({
       next: (r) => {
         this.courses = r.data;

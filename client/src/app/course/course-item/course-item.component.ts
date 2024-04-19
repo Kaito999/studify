@@ -18,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CourseItemComponent {
   @Input() course?: Course;
+  @Output() courseDeleted: EventEmitter<void> = new EventEmitter<void>();
 
   color: string = 'rgb(255, 162, 0)';
 
@@ -43,7 +44,8 @@ export class CourseItemComponent {
   deleteCourse() {
     if (this.course != null)
       this.courseService.deleteCourse(this.course.courseId).subscribe({
-        next: (r) => console.log(),
+        next: () => this.courseDeleted.emit(),
+        error: (e) => console.log(e),
       });
   }
 }

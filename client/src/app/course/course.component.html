@@ -5,7 +5,10 @@
       *ngFor="let course of courses"
       style="width: 20rem; height: 18.75rem"
     >
-      <app-course-item [course]="course"></app-course-item>
+      <app-course-item
+        [course]="course"
+        (courseDeleted)="getCourses()"
+      ></app-course-item>
     </div>
   </div>
   <div
