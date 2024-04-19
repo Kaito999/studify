@@ -16,10 +16,12 @@ public class CoursesController : BaseController
     private readonly ICourseRepository _repo;
     private readonly UserManager<AppUser> _userManager;
     private readonly IGenericRepository<Course> _courseRepo;
+    private readonly IGenericRepository<Topic> _topicRepo;
 
-    public CoursesController(ICourseRepository repo, IGenericRepository<Course> courseRepo, UserManager<AppUser> userManager)
+    public CoursesController(ICourseRepository repo, IGenericRepository<Course> courseRepo, IGenericRepository<Topic> topicRepo, UserManager<AppUser> userManager)
     {
         _courseRepo = courseRepo;
+        _topicRepo = topicRepo;
         _userManager = userManager;
         _repo = repo;
     }
@@ -129,5 +131,16 @@ public class CoursesController : BaseController
         };
 
         return Ok(result);
+    }
+
+    [HttpDelete]
+    [Route("delete/{courseId}")]
+    public async Task<ActionResult> DeleteCourse([FromQuery] int courseId)
+    {
+        if (!IsUserCourseCreator(courseId).Result.Value) return BadRequest("");
+
+        await _courseRepo.DeleteAsync(courseId);
+
+        return Ok("Course deleted!");
     }
 }

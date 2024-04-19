@@ -5,6 +5,7 @@ import { DynamicIconComponent } from './dynamic-icon/dynamic-icon.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TextInputComponent } from './components/text-input/text-input.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   declarations: [DynamicIconComponent, TextInputComponent],
@@ -13,6 +14,7 @@ import { TextInputComponent } from './components/text-input/text-input.component
     PaginationModule.forRoot(),
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
+    TabsModule,
   ],
   exports: [
     PaginationModule,
@@ -20,6 +22,7 @@ import { TextInputComponent } from './components/text-input/text-input.component
     ReactiveFormsModule,
     BsDropdownModule,
     TextInputComponent,
+    TabsModule,
   ],
 })
 export class SharedModule {}

@@ -31,6 +31,10 @@ export class CourseComponent implements OnInit {
     });
   }
 
+  delete() {
+    this.courses.find((x) => x.courseId == 1);
+  }
+
   onPageChanged(event: any) {
     if (this.courseParams.pageIndex !== event.page) {
       this.courseParams.pageIndex = event.page;

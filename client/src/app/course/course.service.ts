@@ -60,4 +60,20 @@ export class CourseService {
       headers,
     });
   }
+
+  deleteCourse(courseId: number) {
+    const jwtToken = localStorage.getItem('token');
+
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      'Bearer ' + jwtToken
+    );
+
+    let params = new HttpParams().set('courseId', courseId);
+
+    return this.http.delete(this.baseUrl + 'courses/delete/' + courseId, {
+      params,
+      headers,
+    });
+  }
 }
