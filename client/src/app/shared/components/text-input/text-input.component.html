@@ -1,4 +1,5 @@
 <input
+  required
   class="form-control border-0 border-bottom border-dark"
   [formControl]="control"
   placeholder="{{ label }}"
@@ -17,3 +18,4 @@
 <div *ngIf="control.errors?.['pattern']" class="invalid-feedback">
   Requires 1 lowercase, 1 uppercase, 1 digit, 1 special, and 6-10 characters.
 </div>
+<div *ngIf="control.errors?.['feedback']" class="invalid-feedback"></div>

@@ -20,6 +20,7 @@ public static class AppServicesExtensions
         });
 
         services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<ITopicRepository, TopicRepository>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 

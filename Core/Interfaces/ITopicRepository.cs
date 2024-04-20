@@ -1,6 +1,8 @@
+using Core.Entities;
+
 namespace Core.Interfaces;
 
-public class ITopicRepository
+public interface ITopicRepository
 {
-
+    Task<IReadOnlyList<Topic>> GetTopicsByCourseIdAsync(int courseId);
 }

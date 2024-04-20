@@ -7,10 +7,28 @@ import { SharedModule } from '../shared/shared.module';
 import { CourseContentComponent } from './course-content/course-content.component';
 import { RouterModule } from '@angular/router';
 import { CourseHeaderComponent } from './course-header/course-header.component';
+import { TopicComponent } from './topic/topic.component';
+import { TopicContentComponent } from './topic-content/topic-content.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [CourseComponent, CourseItemComponent, CourseContentComponent, CourseHeaderComponent],
-  imports: [CommonModule, CoreModule, SharedModule, RouterModule],
+  declarations: [
+    CourseComponent,
+    CourseItemComponent,
+    CourseContentComponent,
+    CourseHeaderComponent,
+    TopicComponent,
+    TopicContentComponent,
+  ],
+  imports: [
+    CommonModule,
+    CoreModule,
+    SharedModule,
+    RouterModule,
+    FormsModule,
+    ModalModule.forRoot(),
+  ],
   exports: [CourseComponent, CourseContentComponent],
 })
 export class CourseModule {}

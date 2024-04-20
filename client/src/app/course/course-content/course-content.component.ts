@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../course.service';
 import { Course } from 'src/app/shared/models/course';
 import { BreadcrumbService } from 'xng-breadcrumb';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AccountService } from 'src/app/account/account.service';
+import { Topic } from 'src/app/shared/models/topic';
 
 @Component({
   selector: 'app-course-content',
@@ -13,10 +17,13 @@ export class CourseContentComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private courseService: CourseService,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    private modalService: BsModalService,
+    public modalRef: BsModalRef
   ) {}
   courseId = 0;
   course: any;
+  topics: Topic[] = [];
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -28,6 +35,7 @@ export class CourseContentComponent implements OnInit {
     this.courseId = +id;
 
     this.getCourse();
+    this.getCourseTopics();
   }
 
   getCourse() {
@@ -36,6 +44,36 @@ export class CourseContentComponent implements OnInit {
         this.course = r;
         this.breadcrumbService.set('@courseName', this.course.title);
       },
+      error: (e) => console.error(e),
+    });
+  }
+
+  openTopicModal(template: TemplateRef<void>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  topicForm = new FormGroup({
+    title: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(30),
+    ]),
+  });
+
+  onTopicSubmit() {
+    this.courseService
+      .addTopic(this.courseId, this.topicForm.get('title')?.value)
+      .subscribe({
+        next: (r: Topic) => {},
+        error: (e) => console.error(e),
+      });
+
+    this.modalRef.hide();
+  }
+
+  getCourseTopics() {
+    this.courseService.getCourseTopics(this.courseId).subscribe({
+      next: (r) => (this.topics = r),
       error: (e) => console.error(e),
     });
   }

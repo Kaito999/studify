@@ -19,37 +19,43 @@
         <section class="d-flex flex-row mt-4">
           <div
             class="d-flex flex-column p-3 me-4 border rounded-3"
-            style="width: 10rem"
+            style="width: 10rem; height: 10rem"
           >
             <div class="d-flex flex-row align-itmes-center">
               <span>Class Code</span>
             </div>
           </div>
-          <div
-            class="d-flex align-items-center border rounded-3 p-3 w-100"
-            style="
-              box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
-                0 2px 6px 2px rgba(60, 64, 67, 0.15);
-              border-radius: 0.5rem;
-              overflow: hidden;
-            "
-            role="button"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              fill="currentColor"
-              class="bi bi-person-circle"
-              viewBox="0 0 16 16"
+          <div class="d-flex flex-column w-100">
+            <div
+              (click)="openTopicModal(topic_form)"
+              class="d-flex align-items-center border rounded-3 p-3"
+              style="
+                box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
+                  0 2px 6px 2px rgba(60, 64, 67, 0.15);
+                border-radius: 0.5rem;
+                overflow: hidden;
+              "
+              role="button"
             >
-              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-              <path
-                fill-rule="evenodd"
-                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
-              />
-            </svg>
-            <span class="ms-3">Create a new topic</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="currentColor"
+                class="bi bi-person-circle"
+                viewBox="0 0 16 16"
+              >
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                <path
+                  fill-rule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                />
+              </svg>
+              <span class="ms-3">Create a new topic</span>
+            </div>
+            <div *ngFor="let topic of topics" class="">
+              <app-topic [topic]="topic"></app-topic>
+            </div>
           </div>
         </section>
       </div>
@@ -58,3 +64,30 @@
     <tab heading="Stats">Stats</tab>
   </tabset>
 </div>
+
+<ng-template #topic_form>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">New Topic</h4>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="topicForm" (ngSubmit)="onTopicSubmit()">
+    <div class="modal-body">
+      <div class="mb-5">
+        <app-text-input
+          [formControl]="topicForm.controls['title']"
+          [label]="'Title'"
+        ></app-text-input>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</ng-template>

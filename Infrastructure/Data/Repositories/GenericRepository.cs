@@ -25,6 +25,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         return await _context.Set<T>().FindAsync(id);
     }
 
+    public async Task<IReadOnlyList<T>> ListByIdAsync(int id)
+    {
+        return await _context.Set<T>().Where(t => t.Id == id).ToListAsync();
+    }
+
     public async Task<IReadOnlyList<T>> ListAllAsync()
     {
         return await _context.Set<T>().ToListAsync();

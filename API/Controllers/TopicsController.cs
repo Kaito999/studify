@@ -1,6 +1,5 @@
 using API.DTOs;
 using API.Extensions;
-using API.Helpers;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -12,18 +11,29 @@ public class TopicsController : BaseController
 {
     private readonly ICourseRepository _repo;
     private readonly UserManager<AppUser> _userManager;
-    private readonly IGenericRepository<Topic> _topicRepo;
+    private readonly IGenericRepository<Topic> _genericTopicRepo;
+    private readonly ITopicRepository _topicRepository;
 
-    public TopicsController(ICourseRepository repo, IGenericRepository<Topic> topicRepo, UserManager<AppUser> userManager)
+    public TopicsController(ICourseRepository repo, ITopicRepository topicRepository, IGenericRepository<Topic> genericTopicRepo, UserManager<AppUser> userManager)
     {
-        _topicRepo = topicRepo;
+        _topicRepository = topicRepository;
+        _genericTopicRepo = genericTopicRepo;
         _userManager = userManager;
         _repo = repo;
     }
 
+
+    [HttpGet]
+    public async Task<ActionResult<IReadOnlyList<Topic>>> GetCourseTopics([FromQuery] int courseId)
+    {
+        var topics = await _topicRepository.GetTopicsByCourseIdAsync(courseId);
+        return Ok(topics);
+    }
+
+
     [HttpPost]
     [Route("addtopic")]
-    public async Task<ActionResult<TopicDto>> AddTopic([FromQuery] TopicDto topicDto)
+    public async Task<ActionResult<Topic>> AddTopic([FromQuery] TopicDto topicDto)
     {
         if (!IsUserCourseCreator(topicDto.CourseId).Result.Value) return BadRequest("Current user can not create topics in this course!");
 
@@ -33,15 +43,9 @@ public class TopicsController : BaseController
             Title = topicDto.Title
         };
 
-        await _topicRepo.AddAsync(course);
+        await _genericTopicRepo.AddAsync(course);
 
-        var result = new TopicDto
-        {
-            CourseId = course.Id,
-            Title = course.Title
-        };
-
-        return Ok(result);
+        return Ok(course);
     }
 
     // [HttpPut]
@@ -56,7 +60,7 @@ public class TopicsController : BaseController
     //         Title = topicDto.Title
     //     };
 
-    //     await _topicRepo.AddAsync(course);
+    //     await _genericTopicRepo.AddAsync(course);
 
     //     var result = new TopicDto
     //     {

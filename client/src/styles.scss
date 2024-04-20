@@ -14,3 +14,13 @@ html {
   margin: 0;
   border: 0;
 }
+
+// .modal-content {
+//   height: calc(100vh - 4rem);
+// }
+
+.modal-75percent-width {
+  max-width: 75vw;
+  width: 75vw;
+  height: calc(100vh - 4rem);
+}
