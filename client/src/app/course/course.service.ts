@@ -4,6 +4,7 @@ import { Pagination } from '../shared/models/pagination';
 import { Course } from '../shared/models/course';
 import { CourseParams } from '../shared/models/courseParams';
 import { Topic } from '../shared/models/topic';
+import { Feedback } from '../shared/models/feedback';
 
 @Injectable({
   providedIn: 'root',
@@ -74,5 +75,19 @@ export class CourseService {
       params,
       headers,
     });
+  }
+
+  addTopicFeedback(topicId: number, text: string) {
+    const headers = this.generateHeaders();
+
+    const uploadTime: string = new Date().toISOString();
+
+    return this.http.post<Feedback>(
+      this.baseUrl + 'topics/addfeedback',
+      { topicId: topicId, text: text, uploadTime: uploadTime },
+      {
+        headers,
+      }
+    );
   }
 }
