@@ -8,7 +8,7 @@ namespace API.Helpers;
 
 public static class EndPointValidation
 {
-    public static async Task<ActionResult<bool>> IsUserCourseCreator(int courseId, string userId, ICourseRepository context)
+    public static async Task<bool> IsUserCourseCreator(int courseId, string userId, ICourseRepository context)
     {
         return await context.IsCreator(courseId, userId);
     }

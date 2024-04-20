@@ -2,14 +2,16 @@ using API.DTOs;
 using API.Extensions;
 using Core.Entities;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
+[Authorize]
 public class TopicsController : BaseController
 {
-    private readonly ICourseRepository _repo;
+    private readonly ICourseRepository _courseRepo;
     private readonly UserManager<AppUser> _userManager;
     private readonly IGenericRepository<Topic> _genericTopicRepo;
     private readonly ITopicRepository _topicRepository;
@@ -19,7 +21,7 @@ public class TopicsController : BaseController
         _topicRepository = topicRepository;
         _genericTopicRepo = genericTopicRepo;
         _userManager = userManager;
-        _repo = repo;
+        _courseRepo = repo;
     }
 
 
@@ -48,28 +50,33 @@ public class TopicsController : BaseController
         return Ok(course);
     }
 
-    // [HttpPut]
-    // [Route("updatetopic")]
-    // public async Task<ActionResult<TopicDto>> UpdateTopic([FromQuery] TopicDto topicDto)
-    // {
-    //     if (!IsUserCourseCreator(topicDto.CourseId).Result.Value) return BadRequest("Current user can not create topics in this course!");
 
-    //     var course = new Topic
-    //     {
-    //         CourseId = topicDto.CourseId,
-    //         Title = topicDto.Title
-    //     };
+    [HttpPost]
+    [Route("addfeedback")]
+    public async Task<ActionResult<FeedbackDto>> AddTopicFeedback([FromBody] FeedbackDto feedbackDto)
+    {
+        var feedback = new Feedback
+        {
+            TopicId = feedbackDto.TopicId,
+            Text = feedbackDto.Text,
+            UploadTime = feedbackDto.UploadTime
+        };
 
-    //     await _genericTopicRepo.AddAsync(course);
+        await _topicRepository.AddFeedbackAsync(feedback);
 
-    //     var result = new TopicDto
-    //     {
-    //         CourseId = course.Id,
-    //         Title = course.Title
-    //     };
+        return Ok(feedbackDto);
+    }
 
-    //     return Ok(result);
-    // }
+
+    [HttpGet]
+    [Route("feedbacks")]
+    public async Task<ActionResult<IReadOnlyList<Feedback>>> GetTopicFeedbacks([FromQuery] int topicId)
+    {
+        var feedbacks = await _topicRepository.GetFeedbacksByTopicIdAsync(topicId);
+
+        return Ok(feedbacks);
+    }
+
 
     [HttpGet]
     [Route("check")]
@@ -79,6 +86,6 @@ public class TopicsController : BaseController
 
         if (currentUser == null) return Unauthorized();
 
-        return await _repo.IsCreator(courseId, currentUser.Id);
+        return await _courseRepo.IsCreator(courseId, currentUser.Id);
     }
 }
