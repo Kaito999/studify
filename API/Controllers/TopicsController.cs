@@ -1,5 +1,6 @@
 using API.DTOs;
 using API.Extensions;
+using API.Helpers;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -66,6 +67,8 @@ public class TopicsController : BaseController
     //     return Ok(result);
     // }
 
+    [HttpGet]
+    [Route("check")]
     public async Task<ActionResult<bool>> IsUserCourseCreator(int courseId)
     {
         var currentUser = await _userManager.FindByEmailFromClaimsPrincipal(User);

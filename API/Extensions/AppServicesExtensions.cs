@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;

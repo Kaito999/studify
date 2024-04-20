@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Core.Entities;
 
 public class Course : BaseEntity
@@ -8,5 +10,6 @@ public class Course : BaseEntity
     public required string CreatorId { get; set; }
     public AppUser? Creator { get; set; }
 
-    public List<Topic> Topics { get; set; } = [];
+    [JsonIgnore]
+    public List<Topic>? Topics { get; set; } = [];
 }
