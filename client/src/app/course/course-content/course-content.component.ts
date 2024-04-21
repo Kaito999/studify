@@ -24,6 +24,7 @@ export class CourseContentComponent implements OnInit {
   courseId = 0;
   course: any;
   topics: Topic[] = [];
+  isUserCreator = false;
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -46,6 +47,15 @@ export class CourseContentComponent implements OnInit {
       },
       error: (e) => console.error(e),
     });
+
+    this.isUserCourseCreator();
+  }
+
+  isUserCourseCreator() {
+    this.courseService.isUserCourseCreator(this.courseId).subscribe({
+      next: (r) => (this.isUserCreator = r),
+      error: (e) => console.error(e),
+    });
   }
 
   openTopicModal(template: TemplateRef<void>) {
@@ -64,11 +74,12 @@ export class CourseContentComponent implements OnInit {
     this.courseService
       .addTopic(this.courseId, this.topicForm.get('title')?.value)
       .subscribe({
-        next: (r: Topic) => {},
+        next: (r: Topic) => {
+          this.getCourseTopics();
+          this.modalRef.hide();
+        },
         error: (e) => console.error(e),
       });
-
-    this.modalRef.hide();
   }
 
   getCourseTopics() {

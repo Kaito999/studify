@@ -20,20 +20,15 @@ export class CourseComponent implements OnInit {
   }
 
   getCourses() {
-    console.log('Refreshing courses...');
     this.courseService.getCourses(this.courseParams).subscribe({
       next: (r) => {
         this.courses = r.data;
         this.courseParams.pageIndex = r.pageIndex;
         this.courseParams.pageSize = r.pageSize;
-        this.totalCount = r.count; // Update totalCount property name
+        this.totalCount = r.count;
       },
       error: (e) => console.error(e),
     });
-  }
-
-  delete() {
-    this.courses.find((x) => x.courseId == 1);
   }
 
   onPageChanged(event: any) {

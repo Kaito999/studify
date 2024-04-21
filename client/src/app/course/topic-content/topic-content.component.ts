@@ -11,6 +11,7 @@ import { DocumentMetadata } from 'src/app/shared/models/documentMetadata';
 export class TopicContentComponent implements OnInit {
   inputFiles: File[] = [];
   filesMetadata: DocumentMetadata[] = [];
+  isUserCreator = false;
 
   @Input() topic?: Topic;
 
@@ -18,6 +19,16 @@ export class TopicContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getFilesMetadata();
+    this.isUserCourseCreator();
+  }
+
+  isUserCourseCreator() {
+    if (this.topic == null) return;
+
+    this.courseService.isUserCourseCreator(this.topic.courseId).subscribe({
+      next: (r) => (this.isUserCreator = r),
+      error: (e) => console.error(e),
+    });
   }
 
   uploadFiles() {

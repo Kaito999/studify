@@ -33,6 +33,17 @@ export class CourseService {
     });
   }
 
+  isUserCourseCreator(courseId: number) {
+    const headers = this.generateHeaders();
+
+    return this.http.get<boolean>(
+      this.baseUrl + 'courses/iscreator/' + courseId,
+      {
+        headers,
+      }
+    );
+  }
+
   getCourse(id: number) {
     const headers = this.generateHeaders();
 
@@ -50,7 +61,7 @@ export class CourseService {
     const headers = this.generateHeaders();
     const params = new HttpParams().set('courseId', courseId.toString());
 
-    return this.http.delete(this.baseUrl + 'courses/delete/' + courseId, {
+    return this.http.delete(this.baseUrl + 'courses/delete', {
       params,
       headers,
     });

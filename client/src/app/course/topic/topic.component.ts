@@ -1,4 +1,10 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Topic } from 'src/app/shared/models/topic';
@@ -11,6 +17,7 @@ import { CourseService } from '../course.service';
 })
 export class TopicComponent {
   @Input() topic?: Topic;
+  @Output() topicAdded: EventEmitter<void> = new EventEmitter<void>();
 
   feedback: string = '';
 

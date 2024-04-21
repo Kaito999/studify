@@ -9,7 +9,7 @@
     >
       <div class="border-end w-25 h-100">
         <div class="border-bottom">
-          <div class="p-3">
+          <div *ngIf="isUserCreator" class="p-3">
             <form (ngSubmit)="uploadFiles()">
               <div
                 class="d-flex align-items-center dropzone bg-light rounded-2 p-5"
