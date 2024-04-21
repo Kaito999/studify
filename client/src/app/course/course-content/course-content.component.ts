@@ -73,7 +73,10 @@ export class CourseContentComponent implements OnInit {
 
   getCourseTopics() {
     this.courseService.getCourseTopics(this.courseId).subscribe({
-      next: (r) => (this.topics = r),
+      next: (r) => {
+        this.topics = r;
+        console.log('Course topics: ', r);
+      },
       error: (e) => console.error(e),
     });
   }

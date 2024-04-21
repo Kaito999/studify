@@ -65,7 +65,7 @@ public class DocumentsController : BaseController
                 Name = file.FileName,
                 Extension = Path.GetExtension(file.FileName),
                 Size = file.Length,
-                UploadTime = DateTime.Now,
+                UploadTime = DateTime.UtcNow,
                 Content = fileData,
                 TopicId = topicId
             };
@@ -73,7 +73,7 @@ public class DocumentsController : BaseController
             await _documentRepository.AddDocumentAsync(newDocument);
         }
 
-        return Ok("Document uploaded successfully.");
+        return Ok();
     }
 
     [HttpDelete]
@@ -81,6 +81,6 @@ public class DocumentsController : BaseController
     public async Task<IActionResult> Delete(int id)
     {
         await _documentRepository.DeleteDocument(id);
-        return Ok("Document deleted successfully.");
+        return Ok();
     }
 }

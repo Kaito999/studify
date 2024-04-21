@@ -5,6 +5,7 @@ import { Course } from '../shared/models/course';
 import { CourseParams } from '../shared/models/courseParams';
 import { Topic } from '../shared/models/topic';
 import { Feedback } from '../shared/models/feedback';
+import { DocumentMetadata } from '../shared/models/documentMetadata';
 
 @Injectable({
   providedIn: 'root',
@@ -85,6 +86,33 @@ export class CourseService {
     return this.http.post<Feedback>(
       this.baseUrl + 'topics/addfeedback',
       { topicId: topicId, text: text, uploadTime: uploadTime },
+      {
+        headers,
+      }
+    );
+  }
+
+  uploadFiles(files: File[], topicId: number) {
+    const headers = this.generateHeaders();
+
+    const formData = new FormData();
+
+    files.forEach((file: File) => {
+      formData.append('files', file, file.name);
+    });
+
+    formData.append('topicId', topicId.toString());
+
+    return this.http.post<any>(this.baseUrl + 'documents/upload', formData, {
+      headers,
+    });
+  }
+
+  getFilesMetadata(topicId: number) {
+    const headers = this.generateHeaders();
+
+    return this.http.get<DocumentMetadata[]>(
+      this.baseUrl + 'documents/metadata/' + topicId.toString(),
       {
         headers,
       }

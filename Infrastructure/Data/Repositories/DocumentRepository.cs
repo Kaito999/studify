@@ -34,6 +34,6 @@ public class DocumentRepository : IDocumentRepository
 
     public async Task<IReadOnlyList<Document>> ListDocumentsAsync(int topicId)
     {
-        return await _context.Documents.ToListAsync();
+        return await _context.Documents.Where(d => d.TopicId == topicId).ToListAsync();
     }
 }

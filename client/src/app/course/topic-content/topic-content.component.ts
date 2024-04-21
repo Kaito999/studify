@@ -1,15 +1,45 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Topic } from 'src/app/shared/models/topic';
+import { CourseService } from '../course.service';
+import { DocumentMetadata } from 'src/app/shared/models/documentMetadata';
 
 @Component({
   selector: 'app-topic-content',
   templateUrl: './topic-content.component.html',
   styleUrls: ['./topic-content.component.scss'],
 })
-export class TopicContentComponent {
-  files: File[] = [];
+export class TopicContentComponent implements OnInit {
+  inputFiles: File[] = [];
+  filesMetadata: DocumentMetadata[] = [];
 
   @Input() topic?: Topic;
+
+  constructor(private courseService: CourseService) {}
+
+  ngOnInit(): void {
+    this.getFilesMetadata();
+  }
+
+  uploadFiles() {
+    if (this.topic == null) return;
+
+    this.courseService.uploadFiles(this.inputFiles, this.topic.id).subscribe({
+      next: (r) => {
+        console.log('Files uploaded successfully.', r);
+        this.inputFiles = [];
+        this.getFilesMetadata();
+      },
+      error: (e) => console.error(e),
+    });
+  }
+
+  getFilesMetadata() {
+    if (this.topic == null) return;
+    this.courseService.getFilesMetadata(this.topic.id).subscribe({
+      next: (r) => (this.filesMetadata = r),
+      error: (e) => console.error(e),
+    });
+  }
 
   selectFiles(): void {
     const inputElement: HTMLInputElement | null = document.querySelector(
@@ -72,6 +102,6 @@ export class TopicContentComponent {
   }
 
   private addFilesToList(files: File[]): void {
-    this.files = this.files.concat(files);
+    this.inputFiles = this.inputFiles.concat(files);
   }
 }

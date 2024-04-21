@@ -5,6 +5,4 @@ export interface Topic {
   title: string;
   courseId: number;
   course: string;
-  documents: Document[];
-  feedbacks: Feedback[];
 }
