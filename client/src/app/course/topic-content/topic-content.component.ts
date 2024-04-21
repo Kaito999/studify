@@ -82,11 +82,16 @@ export class TopicContentComponent implements OnInit {
   @HostListener('dragover', ['$event']) onDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
+    this.setDropzoneBorderColor('#007bff');
   }
 
   @HostListener('dragleave', ['$event']) onDragLeave(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
+    this.setDropzoneBorderColor('#007bff');
+    if (!event.dataTransfer || event.dataTransfer.files.length === 0) {
+      this.setDropzoneBorderColor('#cccccc');
+    }
   }
 
   @HostListener('drop', ['$event']) onDrop(event: DragEvent): void {
@@ -98,6 +103,14 @@ export class TopicContentComponent implements OnInit {
       const validFiles = this.filterValidFiles(files);
       console.log('Valid files dropped:', validFiles);
       this.addFilesToList(validFiles);
+    }
+    this.setDropzoneBorderColor('#cccccc');
+  }
+
+  private setDropzoneBorderColor(color: string): void {
+    const dropzone = document.querySelector('.dropzone') as HTMLElement;
+    if (dropzone) {
+      dropzone.style.borderColor = color;
     }
   }
 

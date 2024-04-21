@@ -2,4 +2,8 @@
   border: 2px dashed #cccccc;
   text-align: center;
   cursor: pointer;
+
+  &.drag-over {
+    border-color: #007bff;
+  }
 }

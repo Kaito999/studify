@@ -24,3 +24,28 @@ html {
   width: 75vw;
   height: calc(100vh - 4rem);
 }
+
+::-webkit-scrollbar {
+  width: 10px; /* width of the scrollbar */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cccc; /* color of the scrollbar handle */
+  border-radius: 5px; /* roundness of the scrollbar handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #969696cc; /* color of the scrollbar handle on hover */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* color of the scrollbar track */
+}
+
+/* Track on hover */
+::-webkit-scrollbar-track:hover {
+  background: #ddd; /* color of the scrollbar track on hover */
+}
