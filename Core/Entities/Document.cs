@@ -9,5 +9,5 @@ public class Document : BaseEntity
     public required DateTime UploadTime { get; set; }
 
     public required int TopicId { get; set; }
-    public required Topic Topic { get; set; }
+    public Topic Topic { get; set; } = null!;
 }

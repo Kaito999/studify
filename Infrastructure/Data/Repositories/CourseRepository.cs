@@ -42,9 +42,9 @@ public class CourseRepository : ICourseRepository
     {
         return await _context.Courses
             .Where(c => c.CreatorId == userId || _context.UserCourses.Any(uc => uc.CoursesId == c.Id && uc.UsersId == userId))
-            .Include(x => x.Topics)
+            .Include(x => x.Topics)!
                 .ThenInclude(x => x.Documents)
-            .Include(x => x.Topics)
+            .Include(x => x.Topics)!
                 .ThenInclude(x => x.Documents)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)

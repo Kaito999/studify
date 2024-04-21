@@ -16,12 +16,10 @@ public class CoursesController : BaseController
     private readonly ICourseRepository _repo;
     private readonly UserManager<AppUser> _userManager;
     private readonly IGenericRepository<Course> _courseRepo;
-    private readonly IGenericRepository<Topic> _topicRepo;
 
-    public CoursesController(ICourseRepository repo, IGenericRepository<Course> courseRepo, IGenericRepository<Topic> topicRepo, UserManager<AppUser> userManager)
+    public CoursesController(ICourseRepository repo, IGenericRepository<Course> courseRepo, UserManager<AppUser> userManager)
     {
         _courseRepo = courseRepo;
-        _topicRepo = topicRepo;
         _userManager = userManager;
         _repo = repo;
     }
@@ -30,6 +28,8 @@ public class CoursesController : BaseController
     public async Task<ActionResult<Pagination<CourseDto>>> GetCourses([FromQuery] PaginationParams pageParams)
     {
         var user = await _userManager.FindByEmailFromClaimsPrincipal(User);
+
+        if (user == null) return NotFound("User not found!");
 
         var courses = await _repo.GetCoursesAsync(user.Id, pageParams.PageIndex, pageParams.PageSize);
 
