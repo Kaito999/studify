@@ -129,4 +129,17 @@ export class CourseService {
       }
     );
   }
+
+  getFileSummarization(documentId: number, summaryLength: number) {
+    const headers = this.generateHeaders();
+    const params = new HttpParams()
+      .set('documentId', documentId.toString())
+      .set('language', 'romanian')
+      .set('summaryLength', summaryLength.toString());
+
+    return this.http.post<string>(this.baseUrl + 'summarization', null, {
+      params,
+      headers,
+    });
+  }
 }

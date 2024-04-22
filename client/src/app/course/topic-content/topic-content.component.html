@@ -58,7 +58,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 48 48"
                 enable-background="new 0 0 48 48"
-                style="height: 5rem; width: 5rem"
+                style="height: 4rem; width: 4rem"
               >
                 <path
                   fill="#FFA000"
@@ -69,7 +69,7 @@
                   d="M42.2,18H15.3c-1.9,0-3.6,1.4-3.9,3.3L8,40h31.7c1.9,0,3.6-1.4,3.9-3.3l2.5-14C46.6,20.3,44.7,18,42.2,18z"
                 />
               </svg>
-              <span>Nothing yet.</span>
+              <span style="font-size: 0.9rem">Nothing yet.</span>
             </div>
           </div>
           <nav *ngIf="filesMetadata.length > 0" class="navbar p-3">
@@ -78,17 +78,144 @@
               class="d-flex flex-column w-100"
             >
               <div
-                class="nav-item mb-3 p-2 rounded-2"
-                style="background-color: rgb(255, 225, 143)"
+                (click)="selectFile(file)"
+                class="nav-item d-flex flex-row align-items-center border bg-light mb-3 p-2 rounded-2 selected-file"
+                dropdown
+                style="max-height: 3rem; cursor: pointer"
               >
-                <span>{{ file.name }}</span>
+                <img
+                  [src]="getIconPath(file.name)"
+                  alt=""
+                  style="width: 2rem; height: 2rem"
+                />
+                <a class="text-decoration-none">
+                  <span
+                    style="max-width: 100%; max-height: 1.9rem"
+                    class="overflow-hidden text-nowrap ms-2"
+                    >{{ getDisplayName(file.name) }}
+                  </span>
+                </a>
+                <ul
+                  id="dropdown-split"
+                  *dropdownMenu
+                  class="dropdown-menu position-sticky dropdown-menu-right"
+                  role="menu"
+                  aria-labelledby="button-basic"
+                >
+                  <li *ngIf="file.extension === '.pdf'" role="menuitem">
+                    <a class="dropdown-item" style="cursor: pointer"
+                      ><svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-stars"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"
+                        /></svg
+                      ><span class="ms-4">Summarize</span></a
+                    >
+                  </li>
+                  <li class="divider dropdown-divider"></li>
+                  <li role="menuitem">
+                    <a class="dropdown-item" style="cursor: pointer"
+                      ><i class="bi bi-trash text-danger me-4"></i
+                      ><span class="text-danger">Delete</span></a
+                    >
+                  </li>
+                </ul>
+                <div
+                  class="d-flex align-items-center justify-content-end w-100"
+                >
+                  <a
+                    dropdownToggle
+                    class="d-block dropdown-toggle-split link-body-emphasis"
+                    aria-controls="dropdown-basic"
+                  >
+                    <i class="bi bi-three-dots-vertical text-black"></i>
+                  </a>
+                </div>
               </div>
             </div>
           </nav>
         </div>
       </div>
-      <div class="d-flex flex-column p-3">
-        <p>ultra</p>
+      <div class="d-flex flex-column w-100">
+        <div
+          class="d-flex flex-row align-items-center border-bottom p-3 w-100"
+          style="height: 10%"
+        >
+          <form
+            (ngSubmit)="summarize()"
+            class="d-flex flex-row align-items-center w-100"
+          >
+            <div class="d-flex flex-row align-items-center ms-3 w-100">
+              <span class="text-nowrap me-3"><b>Summary Length:</b></span>
+              <div class="d-flex flex-row align-items-center w-100">
+                <span>Short</span>
+                <input
+                  style="cursor: pointer"
+                  class="form-range ms-2 me-2 w-25"
+                  type="range"
+                  min="1"
+                  max="5"
+                  step="1"
+                  [(ngModel)]="summarySize"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+                <span>Long</span>
+                <span class="ms-3">Sentences: {{ summarySize }}</span>
+                <div
+                  class="d-flex align-items-center overflow-hidden border rounded ms-3"
+                  style="max-width: 20rem"
+                >
+                  <span class="bg-light p-2 me-1">Input: </span>
+                  <span class="text-nowrap p-2 ms-1">
+                    {{ selectedFileName }}</span
+                  >
+                </div>
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary d-flex align-items-center flex-row rounded-pill me-3 ms-5"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-stars"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"
+                />
+              </svg>
+              <span class="ms-2">Summarize</span>
+            </button>
+          </form>
+        </div>
+        <div class="p-3" style="height: 90%">
+          <div
+            *ngIf="summarizedText.length <= 0"
+            class="d-flex align-items-center justify-content-center opacity-75"
+            style="height: 30rem"
+          >
+            <div class="d-flex flex-column align-items-center">
+              <span class="text-center" style="font-size: 0.9rem; width: 15rem"
+                >Select a document, set the length and hit "Summarize"</span
+              >
+            </div>
+          </div>
+          <div class="summary-text p-3">
+            <p *ngIf="summarizedText.length > 0">
+              {{ summarizedText }}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

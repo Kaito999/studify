@@ -12,6 +12,11 @@ export class TopicContentComponent implements OnInit {
   inputFiles: File[] = [];
   filesMetadata: DocumentMetadata[] = [];
   isUserCreator = false;
+  summarySize: number = 1;
+  selectedFile: any;
+  selectedFileId: number = 0;
+  selectedFileName: string = '';
+  summarizedText: string = '';
 
   @Input() topic?: Topic;
 
@@ -20,6 +25,27 @@ export class TopicContentComponent implements OnInit {
   ngOnInit(): void {
     this.getFilesMetadata();
     this.isUserCourseCreator();
+  }
+
+  selectFile(file: DocumentMetadata) {
+    if (this.selectedFile) {
+      this.selectedFile.isSelected = false;
+    }
+    this.selectedFile = file;
+    this.selectedFileId = file.id;
+    this.selectedFileName = this.getDisplayName(file.name);
+    this.selectedFile.isSelected = true;
+  }
+
+  summarize() {
+    if (this.selectedFileId == 0) return;
+
+    this.courseService
+      .getFileSummarization(this.selectedFileId, this.summarySize)
+      .subscribe({
+        next: (r) => (this.summarizedText = r),
+        error: (e) => console.error(e),
+      });
   }
 
   isUserCourseCreator() {
@@ -85,6 +111,9 @@ export class TopicContentComponent implements OnInit {
           '.txt',
           '.png',
           '.jpg',
+          '.zip',
+          '.rar',
+          '.xls',
         ].includes('.' + extension)
       );
     });
@@ -127,5 +156,57 @@ export class TopicContentComponent implements OnInit {
 
   private addFilesToList(files: File[]): void {
     this.inputFiles = this.inputFiles.concat(files);
+  }
+
+  getIconPath(fileName: string): string {
+    const extension = this.getFileExtension(fileName);
+    switch (extension) {
+      case 'pdf':
+        return '../../../assets/images/file_icons/pdf.png';
+      case 'png':
+        return '../../../assets/images/file_icons/image.png';
+      case 'jpg':
+        return '../../../assets/images/file_icons/image.png';
+      case 'doc':
+        return '../../../assets/images/file_icons/word.png';
+      case 'docx':
+        return '../../../assets/images/file_icons/word.png';
+      case 'pptx':
+        return '../../../assets/images/file_icons/ppt.png';
+      case 'ppt':
+        return '../../../assets/images/file_icons/ppt.png';
+      case 'txt':
+        return '../../../assets/images/file_icons/txt.png';
+      case 'zip':
+        return '../../../assets/images/file_icons/folder.png';
+      case 'rar':
+        return '../../../assets/images/file_icons/folder.png';
+      case 'xls':
+        return '../../../assets/images/file_icons/xls.png';
+      default:
+        return '';
+    }
+  }
+
+  getDisplayName(fileName: string): string {
+    const MAX_DISPLAY_LENGTH = 26;
+    const extension = this.getFileExtension(fileName);
+    const nameWithoutExtension = fileName.substring(
+      0,
+      fileName.length - extension.length - 1
+    );
+    if (fileName.length > MAX_DISPLAY_LENGTH) {
+      return (
+        nameWithoutExtension.substring(0, MAX_DISPLAY_LENGTH) +
+        '...' +
+        extension
+      );
+    } else {
+      return fileName;
+    }
+  }
+
+  getFileExtension(fileName: string): string {
+    return fileName.split('.').pop()?.toLowerCase() || '';
   }
 }

@@ -25,6 +25,8 @@ public static class AppServicesExtensions
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+        services.AddHttpClient();
+
         services.AddCors(options =>
         {
             options.AddPolicy("CorsPolicy", policy =>

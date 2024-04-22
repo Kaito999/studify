@@ -5,4 +5,5 @@ export interface DocumentMetadata {
   size: number;
   uploadTime: string;
   topicId: number;
+  isSelected?: boolean;
 }
