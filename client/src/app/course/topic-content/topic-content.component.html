@@ -160,7 +160,7 @@
                   class="form-range ms-2 me-2 w-25"
                   type="range"
                   min="1"
-                  max="5"
+                  max="10"
                   step="1"
                   [(ngModel)]="summarySize"
                   [ngModelOptions]="{ standalone: true }"
@@ -172,7 +172,10 @@
                   style="max-width: 20rem"
                 >
                   <span class="bg-light p-2 me-1">Input: </span>
-                  <span class="text-nowrap p-2 ms-1">
+                  <span
+                    class="text-nowrap p-2 ms-1"
+                    style="width: 15rem; max-width: 15rem"
+                  >
                     {{ selectedFileName }}</span
                   >
                 </div>
@@ -198,7 +201,7 @@
             </button>
           </form>
         </div>
-        <div class="p-3" style="height: 90%">
+        <div class="overflow-auto p-3" style="height: 90%; max-height: 90%">
           <div
             *ngIf="summarizedText.length <= 0"
             class="d-flex align-items-center justify-content-center opacity-75"
