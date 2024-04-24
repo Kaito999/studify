@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Course } from '../shared/models/course';
 import { CourseService } from './course.service';
 import { CourseParams } from '../shared/models/courseParams';
+import { Topic } from '../shared/models/topic';
 
 @Component({
   selector: 'app-course',

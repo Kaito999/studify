@@ -1,5 +1,6 @@
 using Core.Entities;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories;
@@ -7,16 +8,17 @@ namespace Infrastructure.Data.Repositories;
 public class CourseRepository : ICourseRepository
 {
     private readonly StudyContext _context;
-    public CourseRepository(StudyContext context)
+    private readonly UserManager<AppUser> _userManager;
+    public CourseRepository(StudyContext context, UserManager<AppUser> userManager)
     {
+        _userManager = userManager;
         _context = context;
     }
 
     public async Task<bool> IsCreator(int courseId, string userId)
     {
-        return await _context.Courses
-                            .Where(c => c.Id == courseId && c.CreatorId == userId)
-                            .FirstOrDefaultAsync() != null;
+        return await _context.Courses.Where(c => c.Id == courseId && c.CreatorId == userId)
+                                    .FirstOrDefaultAsync() != null;
     }
 
     public async Task<Course> AddCourseAsync(Course course)
@@ -56,5 +58,25 @@ public class CourseRepository : ICourseRepository
         return await _context.Courses
             .Where(c => c.CreatorId == userId || _context.UserCourses.Any(uc => uc.CoursesId == c.Id && uc.UsersId == userId))
             .CountAsync();
+    }
+
+    public async Task<string> GetCourseCreatorIdAsync(int courseId)
+    {
+        var course = await _context.Courses.FindAsync(courseId);
+        return course.CreatorId;
+    }
+
+    public async Task<List<AppUser>> GetCourseUsersAsync(int courseId)
+    {
+        var usersIds = await _context.UserCourses.Select(c => c.UsersId).ToListAsync();
+
+        var users = new List<AppUser>();
+
+        foreach (var id in usersIds)
+        {
+            users.Add(await _userManager.FindByIdAsync(id));
+        }
+
+        return users;
     }
 }

@@ -88,6 +88,26 @@ public class CoursesController : BaseController
         };
     }
 
+    [HttpGet]
+    [Route("creator/{courseId}")]
+    public async Task<ActionResult<CourseCreatorDto>> GetUserCreator(int courseId)
+    {
+        var userId = await _repo.GetCourseCreatorIdAsync(courseId);
+
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user == null) return NotFound("User not found!");
+
+        var result = new CourseCreatorDto
+        {
+            Nickname = user.Nickname,
+            Email = user.Email!,
+            ProfilePictureUrl = user.ProfilePictureUrl,
+        };
+
+        return Ok(result);
+    }
+
     [HttpGet("iscreator/{courseId}")]
     public async Task<ActionResult<bool>> IsUserCourseCreator(int courseId)
     {
@@ -98,9 +118,25 @@ public class CoursesController : BaseController
         return await _repo.IsCreator(courseId, currentUser.Id);
     }
 
+    [HttpGet]
+    [Route("students/{courseId}")]
+    public async Task<ActionResult<IReadOnlyList<StudentDto>>> GetCourseStudents(int courseId)
+    {
+        var users = await _repo.GetCourseUsersAsync(courseId);
+
+        var result = users.Select(user => new StudentDto
+        {
+            Nickname = user.Nickname,
+            Email = user.Email,
+            ProfilePictureUrl = user.ProfilePictureUrl,
+        }).ToList();
+
+        return Ok(result);
+    }
+
     [HttpPost]
     [Route("enroll")]
-    public async Task<ActionResult<EnrollDto>> AddUserToCourse(EnrollDto enrollDto)
+    public async Task<ActionResult<EnrollDto>> AddUserToCourse([FromForm] EnrollDto enrollDto)
     {
         if (!IsUserCourseCreator(enrollDto.CourseId).Result.Value) return BadRequest("Current user can not enroll other users in this course!");
 

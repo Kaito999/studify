@@ -10,4 +10,6 @@ public interface ICourseRepository
     Task<int> GetTotalCourseCountAsync(string userId);
     Task<IReadOnlyList<Course>> GetCoursesAsync(string userId, int pageIndex, int pageSize);
     Task<bool> IsCreator(int courseId, string userId);
+    Task<string> GetCourseCreatorIdAsync(int courseId);
+    Task<List<AppUser>> GetCourseUsersAsync(int courseId);
 }

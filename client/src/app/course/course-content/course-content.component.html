@@ -1,8 +1,8 @@
 <div class="overflow-auto" style="height: calc(100vh - 4rem)">
   <div *ngIf="course" class="pt-3 ps-3 mb-5">
     <tabset type="pills">
-      <tab heading="Stream" id="tab1"
-        ><div class="container p-0 w-75" style="background-color: white">
+      <tab heading="Stream" id="tab1">
+        <div class="container p-0 w-75" style="background-color: white">
           <!-- course banner -->
           <div
             class="d-flex rounded-3 mt-4"
@@ -48,7 +48,116 @@
           </section>
         </div>
       </tab>
-      <tab heading="People">People</tab>
+      <tab heading="People">
+        <div class="container flex-column w-50 p-4">
+          <div class="d-flex flex-column w-100">
+            <div
+              class="d-flex flex-column justify-content-center border-bottom"
+              style="height: 4.5rem; padding-left: 1.5rem"
+            >
+              <h2>Teachers</h2>
+            </div>
+            <div>
+              <div
+                class="d-flex flex-row align-items-center"
+                style="
+                  height: 3.75rem;
+                  margin-bottom: 2rem;
+                  padding-left: 1.5rem;
+                "
+              >
+                <div *ngIf="courseCreator.profilePictureUrl === null">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    fill="currentColor"
+                    class="bi bi-person-circle me-3"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                    <path
+                      fill-rule="evenodd"
+                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                    />
+                  </svg>
+                </div>
+                <div class="d-flex flex-row justify-content-between w-100">
+                  <span class="me-4">
+                    {{ courseCreator.nickname }}
+                  </span>
+                  <span>
+                    {{ courseCreator.email }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="d-flex flex-column justify-content-center border-bottom"
+              style="height: 4.5rem; padding-left: 1.5rem"
+            >
+              <div
+                class="d-flex flex-row justify-content-between align-items-center"
+              >
+                <h2 class="mb-0">Students</h2>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  fill="currentColor"
+                  class="bi bi-person-plus"
+                  viewBox="0 0 16 16"
+                  (click)="openStudentModal(student_form)"
+                  style="cursor: pointer"
+                >
+                  <path
+                    d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div *ngFor="let student of students">
+              <div
+                class="d-flex flex-row align-items-center"
+                style="
+                  height: 3.75rem;
+                  margin-bottom: 2rem;
+                  padding-left: 1.5rem;
+                "
+              >
+                <div *ngIf="courseCreator.profilePictureUrl === null">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    fill="currentColor"
+                    class="bi bi-person-circle me-3"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                    <path
+                      fill-rule="evenodd"
+                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                    />
+                  </svg>
+                </div>
+                <div class="d-flex flex-row justify-content-between w-100">
+                  <span class="me-4">
+                    {{ student.nickname }}
+                  </span>
+                  <span>
+                    {{ student.email }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </tab>
       <tab heading="Stats">Stats</tab>
     </tabset>
   </div>
@@ -72,6 +181,33 @@
         <app-text-input
           [formControl]="topicForm.controls['title']"
           [label]="'Title'"
+        ></app-text-input>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #student_form>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Enroll student</h4>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="topicForm" (ngSubmit)="onStudentSubmit()">
+    <div class="modal-body">
+      <div class="mb-5">
+        <app-text-input
+          [formControl]="studentForm.controls['email']"
+          [label]="'Email'"
         ></app-text-input>
       </div>
     </div>

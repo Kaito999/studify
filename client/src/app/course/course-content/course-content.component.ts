@@ -5,8 +5,9 @@ import { Course } from 'src/app/shared/models/course';
 import { BreadcrumbService } from 'xng-breadcrumb';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AccountService } from 'src/app/account/account.service';
 import { Topic } from 'src/app/shared/models/topic';
+import { CourseCreator } from 'src/app/shared/models/courseCreator';
+import { Student } from 'src/app/shared/models/student';
 
 @Component({
   selector: 'app-course-content',
@@ -24,7 +25,14 @@ export class CourseContentComponent implements OnInit {
   courseId = 0;
   course: any;
   topics: Topic[] = [];
+  students: Student[] = [];
   isUserCreator = false;
+
+  courseCreator: CourseCreator = {
+    nickname: '',
+    email: '',
+    profilePictureUrl: '',
+  };
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -36,7 +44,9 @@ export class CourseContentComponent implements OnInit {
     this.courseId = +id;
 
     this.getCourse();
+    this.getCourseCreator();
     this.getCourseTopics();
+    this.getCourseStudents();
   }
 
   getCourse() {
@@ -49,6 +59,23 @@ export class CourseContentComponent implements OnInit {
     });
 
     this.isUserCourseCreator();
+  }
+
+  getCourseTopics() {
+    this.courseService.getCourseTopics(this.courseId).subscribe({
+      next: (r) => {
+        this.topics = r;
+        console.log('Course topics: ', r);
+      },
+      error: (e) => console.error(e),
+    });
+  }
+
+  getCourseCreator() {
+    this.courseService.getCourseCreator(this.courseId).subscribe({
+      next: (r) => (this.courseCreator = r),
+      error: (e) => console.error(e),
+    });
   }
 
   isUserCourseCreator() {
@@ -82,12 +109,34 @@ export class CourseContentComponent implements OnInit {
       });
   }
 
-  getCourseTopics() {
-    this.courseService.getCourseTopics(this.courseId).subscribe({
-      next: (r) => {
-        this.topics = r;
-        console.log('Course topics: ', r);
-      },
+  openStudentModal(template: TemplateRef<void>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  studentForm = new FormGroup({
+    email: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(30),
+    ]),
+  });
+
+  onStudentSubmit() {
+    console.log(this.studentForm.get('email')?.value);
+    this.courseService
+      .enrollStudent(this.courseId, this.studentForm.get('email')?.value)
+      .subscribe({
+        next: (r) => {
+          this.modalRef.hide();
+          console.log(r);
+        },
+        error: (e) => console.error(e),
+      });
+  }
+
+  getCourseStudents() {
+    this.courseService.getCourseStudents(this.courseId).subscribe({
+      next: (r) => (this.students = r),
       error: (e) => console.error(e),
     });
   }

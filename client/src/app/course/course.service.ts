@@ -6,6 +6,8 @@ import { CourseParams } from '../shared/models/courseParams';
 import { Topic } from '../shared/models/topic';
 import { Feedback } from '../shared/models/feedback';
 import { DocumentMetadata } from '../shared/models/documentMetadata';
+import { CourseCreator } from '../shared/models/courseCreator';
+import { Student } from '../shared/models/student';
 
 @Injectable({
   providedIn: 'root',
@@ -65,6 +67,29 @@ export class CourseService {
       params,
       headers,
     });
+  }
+
+  enrollStudent(courseId: number, studentEmail: any) {
+    const headers = this.generateHeaders();
+    const formData = new FormData();
+
+    formData.append('courseId', courseId.toString());
+    formData.append('userEmail', studentEmail.toString());
+
+    return this.http.post<any>(this.baseUrl + 'courses/enroll', formData, {
+      headers,
+    });
+  }
+
+  getCourseStudents(courseId: number) {
+    const headers = this.generateHeaders();
+
+    return this.http.get<Student[]>(
+      this.baseUrl + 'courses/students/' + courseId,
+      {
+        headers,
+      }
+    );
   }
 
   addTopic(courseId: number, title: any) {
@@ -141,5 +166,16 @@ export class CourseService {
       params,
       headers,
     });
+  }
+
+  getCourseCreator(courseId: number) {
+    const headers = this.generateHeaders();
+
+    return this.http.get<CourseCreator>(
+      this.baseUrl + 'courses/creator/' + courseId.toString(),
+      {
+        headers,
+      }
+    );
   }
 }

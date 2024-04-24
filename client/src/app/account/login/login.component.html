@@ -12,7 +12,7 @@
               style="height: 30rem"
             >
               <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                <p class="text-left ps-3 h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
+                <p class="text-left h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
                   Sign In
                 </p>
 
@@ -22,7 +22,6 @@
                   (ngSubmit)="onSubmit()"
                 >
                   <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="me-3"></i>
                     <div class="form-outline flex-fill mb-0">
                       <app-text-input
                         [formControl]="loginForm.controls['email']"
@@ -32,7 +31,6 @@
                   </div>
 
                   <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
                       <app-text-input
                         [formControl]="loginForm.controls['password']"
@@ -45,7 +43,7 @@
                     Welcome back!
                   </div>
 
-                  <div class="d-flex mx-3 mb-3 mb-lg-4">
+                  <div class="d-flex mb-3 mb-lg-4">
                     <button type="submit" class="btn btn-primary btn-lg">
                       Login
                     </button>
