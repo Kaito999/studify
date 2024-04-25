@@ -155,7 +155,6 @@ export class CourseContentComponent implements OnInit {
     this.courseService.getTopicFeedbacks(topicId).subscribe({
       next: (r) => {
         feedbacks = r;
-        console.log(r);
       },
       error: (e) => console.error(e),
     });

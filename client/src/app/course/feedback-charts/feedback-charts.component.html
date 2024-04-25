@@ -1,0 +1,14 @@
+<div
+  class="d-flex flex-column justify-content-center"
+  style="height: calc(100vh - 12rem)"
+>
+  <div class="container w-75 p-5 rounded shadow">
+    <button (click)="refreshChart()" class="btn btn-primary">Refresh</button>
+    <div
+      class="d-flex flex-column align-items-center w-100"
+      style="height: 30rem"
+    >
+      <canvas #chartCanvas></canvas>
+    </div>
+  </div>
+</div>

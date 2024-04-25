@@ -11,6 +11,7 @@ import { TopicComponent } from './topic/topic.component';
 import { TopicContentComponent } from './topic-content/topic-content.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule } from '@angular/forms';
+import { FeedbackChartsComponent } from './feedback-charts/feedback-charts.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
     CourseHeaderComponent,
     TopicComponent,
     TopicContentComponent,
+    FeedbackChartsComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +31,6 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     ModalModule.forRoot(),
   ],
-  exports: [CourseComponent, CourseContentComponent],
+  exports: [CourseComponent, CourseContentComponent, FeedbackChartsComponent],
 })
 export class CourseModule {}
