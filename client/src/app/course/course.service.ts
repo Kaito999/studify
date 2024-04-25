@@ -178,4 +178,14 @@ export class CourseService {
       }
     );
   }
+
+  getTopicFeedbacks(topicId: number) {
+    const headers = this.generateHeaders();
+    const params = new HttpParams().set('topicId', topicId.toString());
+
+    return this.http.get<Feedback[]>(this.baseUrl + 'topics/feedbacks/', {
+      params,
+      headers,
+    });
+  }
 }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StudyContext))]
-    [Migration("20240420063204_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240425110933_AddLabelScoreToFeedback")]
+    partial class AddLabelScoreToFeedback
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,6 +165,12 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("LabelScore")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("SentimentLabel")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Text")
                         .IsRequired()

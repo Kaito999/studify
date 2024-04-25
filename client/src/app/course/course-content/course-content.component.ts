@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Topic } from 'src/app/shared/models/topic';
 import { CourseCreator } from 'src/app/shared/models/courseCreator';
 import { Student } from 'src/app/shared/models/student';
+import { Feedback } from 'src/app/shared/models/feedback';
 
 @Component({
   selector: 'app-course-content',
@@ -66,6 +67,7 @@ export class CourseContentComponent implements OnInit {
       next: (r) => {
         this.topics = r;
         console.log('Course topics: ', r);
+        this.getTopicFeedbacks();
       },
       error: (e) => console.error(e),
     });
@@ -139,5 +141,25 @@ export class CourseContentComponent implements OnInit {
       next: (r) => (this.students = r),
       error: (e) => console.error(e),
     });
+  }
+
+  getTopicFeedbacks() {
+    this.topics.forEach((element) => {
+      element.feedbacks = this.getTopics(element.id);
+    });
+  }
+
+  getTopics(topicId: number) {
+    let feedbacks: Feedback[] = [];
+
+    this.courseService.getTopicFeedbacks(topicId).subscribe({
+      next: (r) => {
+        feedbacks = r;
+        console.log(r);
+      },
+      error: (e) => console.error(e),
+    });
+
+    return feedbacks;
   }
 }
