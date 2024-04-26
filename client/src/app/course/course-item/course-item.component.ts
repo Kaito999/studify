@@ -19,7 +19,7 @@ export class CourseItemComponent {
   @Input() course?: Course;
   @Output() courseDeleted: EventEmitter<void> = new EventEmitter<void>();
 
-  color: string = 'rgb(255, 162, 0)';
+  color: string = 'rgb(255, 177, 41)';
 
   constructor(
     private modalService: BsModalService,

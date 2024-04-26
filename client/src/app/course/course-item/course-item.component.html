@@ -12,12 +12,12 @@
     <div class="d-flex justify-content-between p-3">
       <h2 class="d-flex flex-column text-white">
         <span style="font-size: 1.375rem">{{ course.title }}</span>
-        <span style="font-size: 1rem">room</span>
+        <!-- <span style="font-size: 1rem">room</span> -->
       </h2>
     </div>
   </div>
   <div class="card-body p-0">
-    <p class="card-text p-3" style="height: 10rem">Description</p>
+    <p class="card-text p-3" style="height: 10rem"></p>
     <div class="d-flex align-items-center justify-content-end border-top">
       <div *ngIf="accountService.currentUser$ | async as user" dropdown>
         <a
