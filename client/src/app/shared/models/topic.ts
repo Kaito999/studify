@@ -5,5 +5,7 @@ export interface Topic {
   title: string;
   courseId: number;
   course: string;
+  positiveSummary: string;
+  negativeSummary: string;
   feedbacks: Feedback[];
 }

@@ -41,12 +41,6 @@ export class FeedbackChartsComponent implements OnInit {
     this.generateChart();
   }
 
-  onTabChange(event: { activeId: string }) {
-    if (event.activeId === 'tab3') {
-      this.generateChart();
-    }
-  }
-
   refreshChart() {
     this.getCourseTopics();
     this.generateChart();
@@ -158,5 +152,24 @@ export class FeedbackChartsComponent implements OnInit {
       data: chartData,
       options: chartOptions,
     });
+  }
+
+  summarizeFeedback() {}
+
+  concatenateFeedbacksBySentiment(
+    topic: Topic,
+    sentimentLabel: number
+  ): string {
+    let concatenatedText = '';
+
+    if (topic.feedbacks.length <= 0) return '';
+
+    topic.feedbacks.forEach((feedback) => {
+      if (feedback.sentimentLabel === sentimentLabel) {
+        concatenatedText += feedback.text.trim() + '. ';
+      }
+    });
+
+    return concatenatedText.trim();
   }
 }

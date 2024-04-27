@@ -1,14 +1,81 @@
-<div
-  class="d-flex flex-column justify-content-center"
-  style="height: calc(100vh - 12rem)"
->
+<div class="d-flex flex-column justify-content-center mt-4">
   <div class="container w-75 p-5 rounded shadow">
-    <button (click)="refreshChart()" class="btn btn-primary">Refresh</button>
+    <button (click)="refreshChart()" class="btn btn-dark">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        class="bi bi-arrow-clockwise"
+        viewBox="0 0 16 16"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
+        />
+        <path
+          d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"
+        />
+      </svg>
+    </button>
+    <span class="ms-3">Refresh to display the chart</span>
     <div
       class="d-flex flex-column align-items-center w-100"
       style="height: 30rem"
     >
       <canvas #chartCanvas></canvas>
+    </div>
+    <h3 class="mt-5">Feedbacks</h3>
+    <div
+      class="d-flex flex-column align-items-center w-100"
+      *ngFor="let topic of topics"
+    >
+      <div class="d-flex flex-row align-items-center w-100">
+        <div *ngIf="topic" class="mt-4 w-100">
+          <div class="card">
+            <div class="card-header" style="cursor: pointer">
+              {{ topic.title }}
+            </div>
+            <div class="card-body p-0">
+              <div
+                class="d-flex flex-row align-items-center justify-content-between"
+              >
+                <div
+                  *ngIf="topic"
+                  class="d-flex flex-column justify-content-center w-100"
+                >
+                  <div *ngIf="topic.feedbacks.length > 0">
+                    <ul class="list-group list-group-flush w-100">
+                      <span class="ps-3 pt-2">Positive: </span>
+                      <li class="list-group-item w-100 ps-5">
+                        <u
+                          class="d-flex flex-column"
+                          *ngFor="let feedback of topic.feedbacks"
+                        >
+                          <li *ngIf="feedback.sentimentLabel === 1">
+                            {{ feedback.text }}
+                          </li>
+                        </u>
+                      </li>
+                      <span class="ps-3 pt-2">Negative: </span>
+                      <li class="list-group-item w-100 ps-5 mb-2">
+                        <u
+                          class="d-flex flex-column"
+                          *ngFor="let feedback of topic.feedbacks"
+                        >
+                          <li *ngIf="feedback.sentimentLabel === 0">
+                            {{ feedback.text }}
+                          </li>
+                        </u>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
