@@ -76,7 +76,7 @@ public class AccountController : BaseController
 
         var user = new AppUser
         {
-            Nickname = registerDto.Email,
+            Nickname = registerDto.Nickname,
             Email = registerDto.Email,
             UserName = registerDto.Email
         };
