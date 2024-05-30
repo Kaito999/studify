@@ -18,6 +18,8 @@ export class TopicContentComponent implements OnInit {
   selectedFileName: string = '';
   summarizedText: string = '';
 
+  private readonly MAX_FILE_SIZE = 10 * 1024 * 1024;
+
   @Input() topic?: Topic;
 
   constructor(private courseService: CourseService) {}
@@ -70,6 +72,22 @@ export class TopicContentComponent implements OnInit {
     });
   }
 
+  downloadFile(file: DocumentMetadata, event: MouseEvent) {
+    event.stopPropagation();
+    this.courseService.downloadFile(file.id).subscribe({
+      next: (response) => {
+        const blob = new Blob([response], { type: response.type });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = file.name;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (e) => console.error(e),
+    });
+  }
+
   getFilesMetadata() {
     if (this.topic == null) return;
     this.courseService.getFilesMetadata(this.topic.id).subscribe({
@@ -100,22 +118,28 @@ export class TopicContentComponent implements OnInit {
   private filterValidFiles(files: File[]): File[] {
     return files.filter((file) => {
       const extension = file.name.split('.').pop()?.toLowerCase();
-      return (
+      const isValidSize = file.size <= this.MAX_FILE_SIZE;
+      const isValidExtension =
         !!extension &&
         [
-          '.pdf',
-          '.docx',
-          '.doc',
-          '.pptx',
-          '.ppt',
-          '.txt',
-          '.png',
-          '.jpg',
-          '.zip',
-          '.rar',
-          '.xls',
-        ].includes('.' + extension)
-      );
+          'pdf',
+          'docx',
+          'doc',
+          'pptx',
+          'ppt',
+          'txt',
+          'png',
+          'jpg',
+          'zip',
+          'rar',
+          'xls',
+        ].includes(extension);
+
+      if (!isValidSize) {
+        alert(`File ${file.name} exceeds the maximum size of 10MB.`);
+      }
+
+      return isValidSize && isValidExtension;
     });
   }
 

@@ -8,6 +8,7 @@ import { Feedback } from '../shared/models/feedback';
 import { DocumentMetadata } from '../shared/models/documentMetadata';
 import { CourseCreator } from '../shared/models/courseCreator';
 import { Student } from '../shared/models/student';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -126,6 +127,12 @@ export class CourseService {
         headers,
       }
     );
+  }
+
+  downloadFile(fileId: number): Observable<Blob> {
+    return this.http.get(this.baseUrl + 'documents/' + fileId.toString(), {
+      responseType: 'blob',
+    });
   }
 
   uploadFiles(files: File[], topicId: number) {
