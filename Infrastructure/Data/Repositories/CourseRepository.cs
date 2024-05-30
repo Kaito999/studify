@@ -68,13 +68,20 @@ public class CourseRepository : ICourseRepository
 
     public async Task<List<AppUser>> GetCourseUsersAsync(int courseId)
     {
-        var usersIds = await _context.UserCourses.Select(c => c.UsersId).ToListAsync();
+        var usersIds = await _context.UserCourses
+            .Where(uc => uc.CoursesId == courseId)
+            .Select(uc => uc.UsersId)
+            .ToListAsync();
 
         var users = new List<AppUser>();
 
         foreach (var id in usersIds)
         {
-            users.Add(await _userManager.FindByIdAsync(id));
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                users.Add(user);
+            }
         }
 
         return users;
